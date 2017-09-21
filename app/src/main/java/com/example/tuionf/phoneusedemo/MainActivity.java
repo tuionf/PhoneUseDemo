@@ -7,6 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageInfo;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -17,6 +21,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import org.litepal.tablemanager.Connector;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -37,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Connector.getDatabase();
 
         dayUseUnlockRate = 0;
 
@@ -76,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
             Log.e("hhp", "getInstallApp: "+ packageInfo.packageName+"---"+tmpInfo.getAppname());
 //            tmpInfo.versionCode = packageInfo.versionCode;
-            tmpInfo.setAppicon(packageInfo.applicationInfo.loadIcon(getPackageManager()));
+            tmpInfo.setAppicon(imgToByte(packageInfo.applicationInfo.loadIcon(getPackageManager())));
             appInstallList.add(tmpInfo);
         }
 
@@ -126,6 +136,7 @@ public class MainActivity extends AppCompatActivity {
                             if (packageName.equals(appInfo.getPackagename())){
                                 tempAppInfo.setAppname(appInfo.getAppname());
                                 tempAppInfo.setAppicon(appInfo.getAppicon());
+                                tempAppInfo.save();
                                 appList.add(tempAppInfo);
 //                                continue;
                             }
@@ -143,6 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 HisUseAppAdapter hisUseAppAdapter = new HisUseAppAdapter(this,phoneDayUse.getAppInfoList());
                 his_use_top5.setAdapter(hisUseAppAdapter);
 
+                phoneDayUse.save();
             }catch (Exception e){
                 Toast.makeText(this, "无法开启，请手动开启", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
@@ -167,6 +179,34 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    private byte[] imgToByte(Drawable drawable){
+        int width = drawable.getIntrinsicWidth();
+
+        int height = drawable.getIntrinsicHeight();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height,
+
+                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+
+                        : Bitmap.Config.RGB_565);
+
+        Canvas canvas = new Canvas(bitmap);
+
+        drawable.setBounds(0,0,width,height);
+
+        drawable.draw(canvas);
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        try {
+            out.flush();
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out.toByteArray();
     }
 
 }

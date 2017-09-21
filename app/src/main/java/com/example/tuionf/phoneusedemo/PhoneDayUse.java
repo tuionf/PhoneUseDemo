@@ -1,7 +1,6 @@
 package com.example.tuionf.phoneusedemo;
 
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.Property;
+import org.litepal.crud.DataSupport;
 
 import java.util.ArrayList;
 
@@ -9,17 +8,12 @@ import java.util.ArrayList;
  * Created by tuion on 2017/9/19.
  */
 
-public class PhoneDayUse {
+public class PhoneDayUse extends DataSupport{
 
-    @Id
     private Long date; //20170920
-    @Property(nameInDb = "dayUseTime")
     private long dayUseTime;    //使用总时长
-    @Property(nameInDb = "dayUseRate")
     private int dayUseRate;     //使用频次
-    @Property(nameInDb = "dayUseAppCount")
     private int dayUseAppCount;  //使用个数
-    @Property(nameInDb = "dayUseUnlockRate")
     private int dayUseUnlockRate; //解锁频次
 
     private ArrayList<AppInfo> appInfoList;

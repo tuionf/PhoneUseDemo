@@ -1,12 +1,12 @@
 package com.example.tuionf.phoneusedemo;
 
-import android.app.Application;
+import org.litepal.LitePalApplication;
 
 /**
  * Created by tuion on 2017/9/20.
  */
 
-public class BaseApplication extends Application {
+public class BaseApplication extends LitePalApplication {
     @Override
     public void onCreate() {
         super.onCreate();

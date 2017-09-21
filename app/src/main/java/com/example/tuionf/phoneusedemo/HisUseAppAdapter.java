@@ -1,6 +1,8 @@
 package com.example.tuionf.phoneusedemo;
 
 import android.content.Context;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +37,7 @@ public class HisUseAppAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         HisUseViewHolder hisUseViewHolder = (HisUseViewHolder) holder;
         AppInfo appInfo = appInfoList.get(position);
-        hisUseViewHolder.app_icon.setBackground(appInfo.getAppicon());
+        hisUseViewHolder.app_icon.setBackground(new BitmapDrawable(BitmapFactory.decodeByteArray(appInfo.getAppicon(), 0, appInfo.getAppicon().length)));
         hisUseViewHolder.app_name.setText(appInfo.getAppname());
         long time = appInfo.getUseTime()/60/1000;
         String timeStr = "";

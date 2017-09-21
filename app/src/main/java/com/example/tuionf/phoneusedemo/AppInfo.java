@@ -1,12 +1,12 @@
 package com.example.tuionf.phoneusedemo;
 
-import android.graphics.drawable.Drawable;
+import org.litepal.crud.DataSupport;
 
 /**
  * Created by tuion on 2017/9/19.
  */
 
-public class AppInfo {
+public class AppInfo extends DataSupport {
 
     //包
     private String packagename = "";
@@ -16,7 +16,7 @@ public class AppInfo {
 
     private String versionName = "";
     //图标
-    private Drawable appicon = null;
+    private byte[] appicon = null;
     //使用频次
     private int useRate = 0;
     //使用时长
@@ -54,14 +54,6 @@ public class AppInfo {
         this.versionName = versionName;
     }
 
-    public Drawable getAppicon() {
-        return appicon;
-    }
-
-    public void setAppicon(Drawable appicon) {
-        this.appicon = appicon;
-    }
-
     public int getUseRate() {
         return useRate;
     }
@@ -76,5 +68,13 @@ public class AppInfo {
 
     public void setUseTime(long useTime) {
         this.useTime = useTime;
+    }
+
+    public byte[] getAppicon() {
+        return appicon;
+    }
+
+    public void setAppicon(byte[] appicon) {
+        this.appicon = appicon;
     }
 }
